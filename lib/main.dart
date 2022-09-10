@@ -1,5 +1,6 @@
 import 'package:cadence/auth/views/landing_page.dart';
 import 'package:flutter/material.dart';
+import 'package:riverpod/riverpod.dart';
 
 import 'auth/views/verification_page.dart';
 import 'home/views/home.dart';
