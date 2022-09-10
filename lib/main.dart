@@ -1,6 +1,7 @@
 import 'package:cadence/auth/views/landing_page.dart';
 import 'package:flutter/material.dart';
 
+import 'auth/views/account_setup.dart';
 import 'auth/views/verification_page.dart';
 import 'contact/views/add_contact_page.dart';
 import 'contact/views/contact_page.dart';
@@ -36,8 +37,9 @@ class MyApp extends StatelessWidget {
         '/': (context) => LandingPage(),
         '/home': (context) => const HomePage(),
         '/verification': (context) => VerificationPage(),
+        '/setup': (context) => const AccountSetupPage(),
         '/add': (context) => const AddContactPage(),
-        '/contact': (context) => ContactPage(),
+        '/contact': (context) => const ContactPage(),
       },
     );
     // home: const HomePage(),

@@ -44,18 +44,21 @@ class _VerificationPage extends State<VerificationPage> {
                 ),
                 Container(
                     padding: EdgeInsets.only(top: 60, bottom: 30),
-                    child: buildHeader('Verify')),
+                    child: Container()),
                 Container(
-                    child: Column(children: [
-                  Container(
-                      padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                      child: buildPhoneField()),
-                  Container(
-                    padding: EdgeInsets.only(right: 21.0),
-                    alignment: Alignment.centerRight,
-                    child: buildForgotPasswordButton(),
+                  child: Column(
+                    children: [
+                      Container(
+                          padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                          child: buildPhoneField()),
+                      Container(
+                        padding: EdgeInsets.only(right: 21.0),
+                        alignment: Alignment.centerRight,
+                        child: buildForgotPasswordButton(),
+                      ),
+                    ],
                   ),
-                ])),
+                ),
                 Container(
                   padding: EdgeInsets.only(
                     top: 60,
@@ -89,7 +92,7 @@ class _VerificationPage extends State<VerificationPage> {
         autofillHints: [AutofillHints.telephoneNumber],
         controller: phoneController,
         decoration: InputDecoration(
-          labelText: "Code sent to your phone",
+          labelText: "Paste Code from SMS",
         ),
       );
 
@@ -144,7 +147,7 @@ class _VerificationPage extends State<VerificationPage> {
 
         Navigator.pushReplacementNamed(
           context,
-          '/home',
+          '/setup',
         );
         // } else {
         //   setState(() {
@@ -153,7 +156,7 @@ class _VerificationPage extends State<VerificationPage> {
         // }
         // print("in sign in page: " + userId);
       },
-      child: Text("Sign in"));
+      child: Text("Verify"));
 
   Widget incorrectUserPass() {
     if (_error) {
