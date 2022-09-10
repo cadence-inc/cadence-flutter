@@ -16,6 +16,11 @@ class _HomePageState extends State<HomePage> {
           child: Text('uid: Hello World!'),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () {
+            Navigator.pushNamed(context, '/add');
+          }),
     );
   }
 }

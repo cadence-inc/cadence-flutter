@@ -34,6 +34,15 @@ class _VerificationPage extends State<VerificationPage> {
                   child: buildBackButton(),
                 ),
                 Container(
+                  // padding: EdgeInsets.only(top: 20.0),
+                  alignment: Alignment.center,
+                  child: Image.asset(
+                    'assets/cadence_logo.png',
+                    width: 100,
+                    height: 100,
+                  ),
+                ),
+                Container(
                     padding: EdgeInsets.only(top: 60, bottom: 30),
                     child: buildHeader('Verify')),
                 Container(
