@@ -29,9 +29,13 @@ class _LandingPage extends State<LandingPage> {
             Column(
               children: [
                 Container(
-                  padding: EdgeInsets.only(top: 60.0),
-                  alignment: Alignment.topLeft,
-                  child: Container(),
+                  padding: EdgeInsets.only(top: 100.0),
+                  alignment: Alignment.center,
+                  child: Image.asset(
+                    'assets/cadence_logo.png',
+                    width: 100,
+                    height: 100,
+                  ),
                 ),
                 Container(
                     padding: EdgeInsets.only(top: 60, bottom: 30),
