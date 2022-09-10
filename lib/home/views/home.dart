@@ -8,19 +8,63 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final ScrollController scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('doug dimahome'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('This will be profile')),
+              );
+            },
+          )
+        ],
+      ),
       body: Center(
         child: Container(
-          child: Text('uid: Hello World!'),
+          child: contactListView(),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () {
-            Navigator.pushNamed(context, '/add');
-          }),
+        child: const Icon(Icons.add),
+        onPressed: () {
+          Navigator.pushNamed(context, '/add');
+        },
+      ),
+    );
+  }
+
+  // grab the contacts and generate a list view composed of list tiles
+  var contacts = ['george', 'jorge', 'cece', 'john', 'james'];
+  Widget contactListView() {
+    return ListView.separated(
+        controller: scrollController,
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemCount: 5, // snapshot.data.length,
+        itemBuilder: (BuildContext context, int index) {
+          return contactListTile(contacts[index]);
+        },
+        separatorBuilder: (context, index) {
+          return Divider(
+            color: Theme.of(context).primaryColor,
+          );
+        });
+  }
+
+  Widget contactListTile(String contact) {
+    return GestureDetector(
+      child: ListTile(
+        trailing: const Icon(Icons.person),
+        title: Text(contact),
+      ),
+      onTap: () => Navigator.pushNamed(context, '/contact'),
     );
   }
 }
