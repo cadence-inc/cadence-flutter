@@ -8,9 +8,12 @@ class ContactPage extends StatefulWidget {
 }
 
 class ContactPageState extends State<ContactPage> {
+  final TextEditingController cadenceController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Center(
         child: Column(
           children: <Widget>[
@@ -30,8 +33,38 @@ class ContactPageState extends State<ContactPage> {
   }
 
   Widget setCadence() {
-    return Container(color: Colors.green);
+    return Column(
+      children: [
+        Container(
+            padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+            child: buildPhoneField()),
+        Container(
+          padding: EdgeInsets.only(
+            top: 60,
+          ),
+          child: buildSignInButton(),
+        ),
+      ],
+    );
   }
+
+  Widget buildPhoneField() => TextFormField(
+        keyboardType: TextInputType.phone,
+        autofillHints: [AutofillHints.telephoneNumber],
+        controller: cadenceController,
+        decoration: InputDecoration(
+          hintText: "5",
+          suffixText: "months",
+          labelText: "Set Your Cadence",
+        ),
+      );
+
+  Widget buildSignInButton() => ElevatedButton(
+      // Ternary operator to make disable button until all text fields are not null
+      onPressed: () async {
+        Navigator.pop(context);
+      },
+      child: Text("Set Cadence"));
 
   Widget contactInfo() {
     return GestureDetector(
@@ -51,7 +84,7 @@ class ContactPageState extends State<ContactPage> {
               context: context,
               builder: (context) {
                 return Container(
-                    height: MediaQuery.of(context).size.height * 0.45,
+                    height: MediaQuery.of(context).size.height * 0.5,
                     child: setCadence());
               },
             ),
@@ -74,6 +107,11 @@ class ContactPageState extends State<ContactPage> {
       child: Stack(
         fit: StackFit.expand,
         children: [
+          Container(
+            padding: EdgeInsets.only(top: 60.0),
+            alignment: Alignment.topLeft,
+            child: buildBackButton(),
+          ),
           buildCallButton(),
         ],
       ),
@@ -103,16 +141,23 @@ class ContactPageState extends State<ContactPage> {
     );
   }
 
-  Widget buildBackButton() {
-    return Positioned(
-      top: 100,
-      left: 15,
-      child: Container(
-        child: const FloatingActionButton(
-          onPressed: null,
-          child: Icon(Icons.arrow_back_ios),
-        ),
-      ),
-    );
-  }
+  Widget buildBackButton() => IconButton(
+        icon: Icon(Icons.arrow_back_ios),
+        onPressed: () {
+          Navigator.pushReplacementNamed(context, '/home');
+        },
+      );
+
+  // Widget buildBackButton() {
+  //   return Positioned(
+  //     top: 100,
+  //     left: 15,
+  //     child: Container(
+  //       child: const FloatingActionButton(
+  //         onPressed: null,
+  //         child: Icon(Icons.arrow_back_ios),
+  //       ),
+  //     ),
+  //   );
+  // }
 }
