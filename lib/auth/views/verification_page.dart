@@ -12,9 +12,6 @@ class VerificationPage extends StatefulWidget {
 
 class _VerificationPage extends State<VerificationPage> {
   final TextEditingController phoneController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  bool _passwordVisible = false;
-  bool _error = false;
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
@@ -54,7 +51,7 @@ class _VerificationPage extends State<VerificationPage> {
                       Container(
                         padding: EdgeInsets.only(right: 21.0),
                         alignment: Alignment.centerRight,
-                        child: buildForgotPasswordButton(),
+                        child: buildResendOTCButton(),
                       ),
                     ],
                   ),
@@ -63,7 +60,7 @@ class _VerificationPage extends State<VerificationPage> {
                   padding: EdgeInsets.only(
                     top: 60,
                   ),
-                  child: buildSignInButton(),
+                  child: buildSubmitButton(),
                 ),
               ],
             ),
@@ -78,14 +75,16 @@ class _VerificationPage extends State<VerificationPage> {
   Widget buildBackButton() => IconButton(
         icon: Icon(Icons.arrow_back_ios),
         onPressed: () {
-          Navigator.pushReplacementNamed(context, '/');
+          Navigator.pop(context);
         },
       );
 
-  Widget buildHeader(str) => Text(str,
-      style: TextStyle(
-        fontSize: 30,
-      ));
+  Widget buildHeader(str) => Text(
+        str,
+        style: TextStyle(
+          fontSize: 30,
+        ),
+      );
 
   Widget buildPhoneField() => TextFormField(
         keyboardType: TextInputType.phone,
@@ -96,74 +95,21 @@ class _VerificationPage extends State<VerificationPage> {
         ),
       );
 
-  Widget buildPasswordField() => TextFormField(
-        enableSuggestions: false,
-        autocorrect: false,
-        keyboardType: TextInputType.visiblePassword,
-        controller: passwordController,
-        obscureText: !_passwordVisible,
-        decoration: InputDecoration(
-          labelText: "Password",
-          suffixIcon: IconButton(
-              icon: Icon(
-                  _passwordVisible ? Icons.visibility : Icons.visibility_off,
-                  color: Theme.of(context).primaryColorDark),
-              onPressed: () {
-                setState(() {
-                  _passwordVisible = !_passwordVisible;
-                  print(_passwordVisible);
-                });
-              }),
+  Widget buildResendOTCButton() => TextButton(
+        onPressed: () async {},
+        child: Text(
+          "Resend Code",
+          style: TextStyle(decoration: TextDecoration.underline),
         ),
       );
 
-  Widget buildForgotPasswordButton() => TextButton(
-      onPressed: () async {},
-      child: Text("Resend Code",
-          style: TextStyle(decoration: TextDecoration.underline)));
-
-  Widget buildSignInButton() => ElevatedButton(
-      // Ternary operator to make disable button until all text fields are not null
-      onPressed: () async {
-        // String userId = await AuthService().login(
-        //   phoneNumber: phoneController.text,
-        //   password: passwordController.text,
-        // );
-
-        // if (userId != null && userId != "") {
-        //   Provider.of<UserProvider>(context, listen: false).login(userId);
-
-        //   // set login creds in shared prefs
-        //   _prefs.then((SharedPreferences prefs) async {
-        //     print("setstring on login");
-        //     // prefs.setString('userId', '1');
-        //     bool setStringSuccessful = await prefs.setString('userId', userId);
-
-        //     print(
-        //         "was set string successful? " + setStringSuccessful.toString());
-        //   });
-
-        Navigator.pushReplacementNamed(
-          context,
-          '/setup',
-        );
-        // } else {
-        //   setState(() {
-        //     _error = true;
-        //   });
-        // }
-        // print("in sign in page: " + userId);
-      },
-      child: Text("Verify"));
-
-  Widget incorrectUserPass() {
-    if (_error) {
-      return Container(
-          width: double.infinity,
-          padding: EdgeInsets.fromLTRB(29.0, 8.0, 0.0, 0.0),
-          child: Text('Incorrect phone/username and password combination.',
-              style: TextStyle(color: Colors.red)));
-    }
-    return SizedBox(height: 0);
-  }
+  Widget buildSubmitButton() => ElevatedButton(
+        onPressed: () async {
+          Navigator.pushReplacementNamed(
+            context,
+            '/setup',
+          );
+        },
+        child: Text("Verify"),
+      );
 }

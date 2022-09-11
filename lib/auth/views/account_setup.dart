@@ -58,6 +58,7 @@ class _AccountSetupPageState extends State<AccountSetupPage> {
           labelText: "What's your name?",
         ),
       );
+
   Widget buildBirthdayField() => TextFormField(
         keyboardType: TextInputType.datetime,
         autofillHints: [AutofillHints.birthday],
@@ -67,6 +68,7 @@ class _AccountSetupPageState extends State<AccountSetupPage> {
           labelText: "What's your birthday?",
         ),
       );
+
   Widget buildCityField() => TextFormField(
         keyboardType: TextInputType.name,
         autofillHints: [AutofillHints.location],
@@ -85,12 +87,6 @@ class _AccountSetupPageState extends State<AccountSetupPage> {
             context,
             '/home',
           );
-          // } else {
-          //   setState(() {
-          //     _error = true;
-          //   });
-          // }
-          // print("in sign in page: " + userId);
         },
         child: Text("Yessir!"),
       );
@@ -115,7 +111,7 @@ class _AccountSetupPageState extends State<AccountSetupPage> {
       i += 1;
     }
 
-    print(year + "-" + month + "-" + day);
-    return year + "-" + month + "-" + day;
+    debugPrint("$year-$month-$day");
+    return "$year-$month-$day";
   }
 }
