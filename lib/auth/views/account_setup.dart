@@ -40,11 +40,10 @@ class _AccountSetupPageState extends State<AccountSetupPage> {
               child: buildCityField(),
             ),
             Container(
-              padding: EdgeInsets.only(
-                top: 60,
-              ),
+              padding: EdgeInsets.only(top: 14, right: 30.0),
+              alignment: Alignment.centerRight,
               child: buildSignInButton(),
-            ),
+            )
           ],
         ),
       ),
@@ -81,23 +80,6 @@ class _AccountSetupPageState extends State<AccountSetupPage> {
         // Ternary operator to make disable button until all text fields are not null
         onPressed: () async {
           String cleanedBday = cleanBday(birthdayController.text);
-          // String userId = await AuthService().login(
-          //   phoneNumber: phoneController.text,
-          //   password: passwordController.text,
-          // );
-
-          // if (userId != null && userId != "") {
-          //   Provider.of<UserProvider>(context, listen: false).login(userId);
-
-          //   // set login creds in shared prefs
-          //   _prefs.then((SharedPreferences prefs) async {
-          //     print("setstring on login");
-          //     // prefs.setString('userId', '1');
-          //     bool setStringSuccessful = await prefs.setString('userId', userId);
-
-          //     print(
-          //         "was set string successful? " + setStringSuccessful.toString());
-          //   });
 
           Navigator.pushReplacementNamed(
             context,

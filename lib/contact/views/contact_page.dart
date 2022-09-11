@@ -37,18 +37,18 @@ class ContactPageState extends State<ContactPage> {
       children: [
         Container(
             padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-            child: buildPhoneField()),
+            child: buildCadenceField()),
         Container(
           padding: EdgeInsets.only(
             top: 60,
           ),
-          child: buildSignInButton(),
+          child: buildCadenceSubmitButton(),
         ),
       ],
     );
   }
 
-  Widget buildPhoneField() => TextFormField(
+  Widget buildCadenceField() => TextFormField(
         keyboardType: TextInputType.phone,
         autofillHints: [AutofillHints.telephoneNumber],
         controller: cadenceController,
@@ -59,7 +59,7 @@ class ContactPageState extends State<ContactPage> {
         ),
       );
 
-  Widget buildSignInButton() => ElevatedButton(
+  Widget buildCadenceSubmitButton() => ElevatedButton(
       // Ternary operator to make disable button until all text fields are not null
       onPressed: () async {
         Navigator.pop(context);

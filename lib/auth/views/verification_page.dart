@@ -118,9 +118,7 @@ class _VerificationPage extends State<VerificationPage> {
       );
 
   Widget buildForgotPasswordButton() => TextButton(
-      onPressed: () async {
-        Navigator.pushNamed(context, '/resetPassword');
-      },
+      onPressed: () async {},
       child: Text("Resend Code",
           style: TextStyle(decoration: TextDecoration.underline)));
 
