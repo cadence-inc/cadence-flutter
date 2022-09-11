@@ -1,8 +1,13 @@
 // import 'package:flownotes/auth/services/auth_service.dart';
 // import 'package:flownotes/globals/providers/user_provider.dart';
 import 'package:cadence/auth/services/auth_service.dart';
+import 'package:cadence/providers/contact_list_provider.dart';
+import 'package:cadence/providers/user_provider.dart';
 import 'package:flutter/material.dart';
+// import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 // import 'package:provider/provider.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
@@ -142,6 +147,15 @@ class _VerificationPage extends State<VerificationPage> {
 
           bool isNewUser = res[0];
           String userId = res[1];
+
+          // set user in provider
+          // Provider.of<UserProvider>(context, listen: false).setUser(userId);
+          // final uid = ref.read(currentUserProvider);
+          // ref.read(currentUserProvider.notifier).setUser('iojiojoj');
+          Provider.of<UserProvider>(context, listen: false).setUserId(userId);
+
+          Provider.of<ContactListProvider>(context, listen: false)
+              .getContacts(userId);
 
           // set userID in shared preferences
 

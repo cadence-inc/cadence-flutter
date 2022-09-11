@@ -1,8 +1,11 @@
 import 'package:cadence/auth/services/auth_service.dart';
+import 'package:cadence/providers/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+// import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -13,10 +16,21 @@ class _HomePageState extends State<HomePage> {
   final AuthService _authService = AuthService();
 
   @override
+  void initState() {
+    super.initState();
+    // "ref" can be used in all life-cycles of a StatefulWidget.
+    // ref.read(currentUserProvider);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // final user = ref.watch(currentUserProvider);
+    // final contacts = ref.watch(currentUserContactsProvider);
+    final user = Provider.of<UserProvider>(context, listen: false).userId;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        title: Text('$user'),
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
@@ -47,6 +61,7 @@ class _HomePageState extends State<HomePage> {
 
   // grab the contacts and generate a list view composed of list tiles
   var contacts = ['george', 'jorge', 'cece', 'john', 'james'];
+  // final contacts = ref.watch(currentUserContactsProvider);
   Widget contactListView() {
     return ListView.separated(
         controller: scrollController,

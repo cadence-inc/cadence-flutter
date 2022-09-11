@@ -1,4 +1,9 @@
+// import main
+// import 'package:cadence/main.dart';
+
 class AuthService {
+  // final currentUserUID = ref.watch(currentUserProvider);
+
   Future<String> sendOTC({required phoneNumber}) async {
     var code = "123";
     print("sendOTC- phone number: $phoneNumber");
@@ -35,6 +40,7 @@ class AuthService {
     print("oneTimeCodeVerified- phone number: $phoneNumber");
 
     //todo:  set userid in provider
+
     return [true, "8080808080"];
   }
 
