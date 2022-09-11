@@ -1,17 +1,29 @@
+import 'package:cadence/main.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:riverpod/riverpod.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomePage extends ConsumerStatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends ConsumerState<HomePage> {
   final ScrollController scrollController = ScrollController();
 
   @override
+  void initState() {
+    super.initState();
+    // "ref" can be used in all life-cycles of a StatefulWidget.
+    ref.read(currentUserProvider);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final user = ref.watch(currentUserProvider);
+    final contacts = ref.watch(currentUserContactsProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
@@ -44,6 +56,7 @@ class _HomePageState extends State<HomePage> {
 
   // grab the contacts and generate a list view composed of list tiles
   var contacts = ['george', 'jorge', 'cece', 'john', 'james'];
+  // final contacts = ref.watch(currentUserContactsProvider);
   Widget contactListView() {
     return ListView.separated(
         controller: scrollController,
