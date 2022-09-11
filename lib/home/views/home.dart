@@ -35,11 +35,11 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('$user'),
+        title: Text('Cadence Beta'),
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
-            icon: const Icon(Icons.person),
+            icon: const Icon(Icons.logout_rounded),
             onPressed: () {
               // ScaffoldMessenger.of(context).showSnackBar(
               //   const SnackBar(content: Text('This will be profile')),
@@ -50,10 +50,8 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      body: Center(
-        child: Container(
-          child: contactListView(contacts),
-        ),
+      body: Container(
+        child: contactListView(contacts),
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),

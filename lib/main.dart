@@ -2,8 +2,6 @@ import 'package:cadence/auth/views/landing_page.dart';
 import 'package:cadence/providers/contact_list_provider.dart';
 import 'package:cadence/providers/user_provider.dart';
 import 'package:flutter/material.dart';
-// import 'package:riverpod/riverpod.dart';
-// import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:provider/provider.dart';
 
 import 'auth/views/account_setup.dart';
@@ -12,22 +10,8 @@ import 'contact/views/add_contact_page.dart';
 import 'contact/views/contact_page.dart';
 import 'home/views/home.dart';
 
-// final currentUserProvider = Provider((ref) => '123abc');
-
-// final currentUserContactsProvider = Provider((ref) => [
-//       ContactModel(name: 'adam', cadence: '2m'),
-//       ContactModel(name: 'kelly', cadence: '1m'),
-//       ContactModel(name: 'joey', cadence: '6m'),
-//       ContactModel(name: 'abby', cadence: '5m'),
-//       ContactModel(name: 'maurice', cadence: '9m'),
-//     ]);
-
 void main() {
-  runApp(
-      // const ProviderScope( child:
-      MyApp()
-      // )
-      );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -40,10 +24,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => ContactListProvider()),
-        // ChangeNotifierProvider(create: (_) => NoteListModel())
-        // ChangeNotifierProvider(create: (_) => NotesProvider()),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.indigo,

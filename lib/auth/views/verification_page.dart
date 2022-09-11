@@ -1,15 +1,9 @@
-// import 'package:flownotes/auth/services/auth_service.dart';
-// import 'package:flownotes/globals/providers/user_provider.dart';
 import 'package:cadence/auth/services/auth_service.dart';
 import 'package:cadence/providers/contact_list_provider.dart';
 import 'package:cadence/providers/user_provider.dart';
 import 'package:flutter/material.dart';
-// import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-// import 'package:provider/provider.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
 
 class VerificationPage extends StatefulWidget {
   String oneTimeCode = '';

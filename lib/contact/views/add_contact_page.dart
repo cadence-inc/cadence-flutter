@@ -1,4 +1,9 @@
+import 'package:cadence/contact/services/contact_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/user_provider.dart';
 
 class AddContactPage extends StatefulWidget {
   const AddContactPage({super.key});
@@ -26,16 +31,16 @@ class _AddContactPageState extends State<AddContactPage> {
               children: [
                 Container(
                     padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                    child: buildPhoneField()),
+                    child: buildContactCodeField()),
                 Container(
-                  padding: EdgeInsets.only(right: 21.0),
+                  padding: EdgeInsets.only(right: 30.0),
                   alignment: Alignment.centerRight,
-                  child: buildSignInButton(),
+                  child: buildSubmitButton(),
                 ),
                 Container(
                   padding: EdgeInsets.only(top: 40.0),
                   alignment: Alignment.center,
-                  child: buildForgotPasswordButton(),
+                  child: buildCopyMyCodeButton(),
                 ),
               ],
             ),
@@ -45,7 +50,7 @@ class _AddContactPageState extends State<AddContactPage> {
     );
   }
 
-  Widget buildPhoneField() => TextFormField(
+  Widget buildContactCodeField() => TextFormField(
         keyboardType: TextInputType.phone,
         autofillHints: [AutofillHints.telephoneNumber],
         controller: contactCodeController,
@@ -54,37 +59,33 @@ class _AddContactPageState extends State<AddContactPage> {
         ),
       );
 
-  Widget buildForgotPasswordButton() => TextButton(
-      onPressed: () async {},
+  Widget buildCopyMyCodeButton() => TextButton(
+      onPressed: () async {
+        final user = Provider.of<UserProvider>(context, listen: false).userId;
+        Clipboard.setData(ClipboardData(text: user));
+      },
       child: Text("Copy My Code",
           style:
               TextStyle(fontSize: 16, decoration: TextDecoration.underline)));
 
-  Widget buildSignInButton() => ElevatedButton(
+  Widget buildSubmitButton() => ElevatedButton(
+
       // Ternary operator to make disable button until all text fields are not null
       onPressed: () async {
-        // String userId = await AuthService().login(
-        //   phoneNumber: phoneController.text,
-        //   password: passwordController.text,
-        // );
+        final ContactService _contactService = ContactService();
+        final currentUserId =
+            Provider.of<UserProvider>(context, listen: false).userId;
+        var res = await _contactService.createNewContact(
+            userId1: contactCodeController.text, userId2: currentUserId);
 
-        // if (userId != null && userId != "") {
-        //   Provider.of<UserProvider>(context, listen: false).login(userId);
-
-        //   // set login creds in shared prefs
-        //   _prefs.then((SharedPreferences prefs) async {
-        //     print("setstring on login");
-        //     // prefs.setString('userId', '1');
-        //     bool setStringSuccessful = await prefs.setString('userId', userId);
-
-        //     print(
-        //         "was set string successful? " + setStringSuccessful.toString());
-        //   });
-
-        Navigator.pushReplacementNamed(
-          context,
-          '/home',
-        );
+        if (res == true) {
+          Navigator.pushReplacementNamed(
+            context,
+            '/home',
+          );
+        } else {
+          print("error creating new contact!");
+        }
         // } else {
         //   setState(() {
         //     _error = true;

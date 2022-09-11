@@ -51,7 +51,7 @@ class ContactPageState extends State<ContactPage> {
     );
   }
 
-  Widget setCadence() {
+  Widget setCadence(ContactModel contact) {
     return Column(
       children: [
         Container(
@@ -61,7 +61,7 @@ class ContactPageState extends State<ContactPage> {
           padding: EdgeInsets.only(
             top: 60,
           ),
-          child: buildCadenceSubmitButton(),
+          child: buildCadenceSubmitButton(contact),
         ),
       ],
     );
@@ -78,9 +78,12 @@ class ContactPageState extends State<ContactPage> {
         ),
       );
 
-  Widget buildCadenceSubmitButton() => ElevatedButton(
+  Widget buildCadenceSubmitButton(ContactModel contact) => ElevatedButton(
       // Ternary operator to make disable button until all text fields are not null
       onPressed: () async {
+        await _contactService.setNewCadence(
+            contactId: contact.contactId,
+            newInterval: int.tryParse(cadenceController.text) ?? 300);
         Navigator.pop(context);
       },
       child: Text("Set Cadence"));
@@ -90,7 +93,7 @@ class ContactPageState extends State<ContactPage> {
 
     return GestureDetector(
       child: FutureBuilder<AccountModel>(
-        future: _contactService.getAccountInfoByUID(uid: contact.userId),
+        future: _contactService.getAccountInfoByUID(uid: contact.connection[0]),
         builder: (BuildContext context, AsyncSnapshot<AccountModel> snapshot) {
           return snapshot.hasData
               ? Column(
@@ -117,7 +120,7 @@ class ContactPageState extends State<ContactPage> {
                         builder: (context) {
                           return Container(
                               height: MediaQuery.of(context).size.height * 0.5,
-                              child: setCadence());
+                              child: setCadence(contact));
                         },
                       ),
                     ),

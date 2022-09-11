@@ -22,7 +22,7 @@ class ContactService {
     // print(response.statusCode);
     // print(response.body);
     var contact1 = ContactModel(
-        userId: "1",
+        contactId: "2",
         name: "John Doe",
         cadence: CadenceModel(
           dateAdded: 123123,
@@ -36,7 +36,7 @@ class ContactService {
         isDeleted: false);
 
     var contact2 = ContactModel(
-        userId: "2",
+        contactId: "2",
         name: "Jane Doe",
         cadence: CadenceModel(
           dateAdded: 123123,
@@ -50,7 +50,7 @@ class ContactService {
         isDeleted: false);
 
     var contact3 = ContactModel(
-        userId: "2",
+        contactId: "2",
         name: "John Smith",
         cadence: CadenceModel(
           dateAdded: 123123,
@@ -64,7 +64,7 @@ class ContactService {
         isDeleted: false);
 
     var contact4 = ContactModel(
-        userId: "2",
+        contactId: "2",
         name: "Jane Smith",
         cadence: CadenceModel(
           dateAdded: 123123,
@@ -79,7 +79,7 @@ class ContactService {
 
     var contact5 = ContactModel(
         name: "John Doe",
-        userId: "2",
+        contactId: "2",
         cadence: CadenceModel(
           dateAdded: 123123,
           interval: 5,
@@ -92,7 +92,7 @@ class ContactService {
         isDeleted: false);
 
     var contact6 = ContactModel(
-        userId: "2",
+        contactId: "2",
         name: "Jane Doe",
         cadence: CadenceModel(
           dateAdded: 123123,
@@ -106,7 +106,7 @@ class ContactService {
         isDeleted: false);
 
     var contact7 = ContactModel(
-        userId: "2",
+        contactId: "2",
         name: "John Smith",
         cadence: CadenceModel(
           dateAdded: 123123,
