@@ -1,4 +1,7 @@
-import 'package:cadence/models/contact_model.dart';
+import 'package:cadence/contact/models/cadence_model.dart';
+import 'package:cadence/contact/models/contact_model.dart';
+
+import '../models/account_model.dart';
 
 class ContactService {
   Future<List<ContactModel>> getAllContacts({required userId}) async {
@@ -18,13 +21,104 @@ class ContactService {
     // }
     // print(response.statusCode);
     // print(response.body);
-    var contact1 = ContactModel(name: "John Doe", cadence: '3');
-    var contact2 = ContactModel(name: "Jane Doe", cadence: '6');
-    var contact3 = ContactModel(name: "Joe Doe", cadence: '9');
-    var contact4 = ContactModel(name: "Jill Doe", cadence: '12');
-    var contact5 = ContactModel(name: "Jack Doe", cadence: '15');
-    var contact6 = ContactModel(name: "Joseph Doe", cadence: '18');
-    var contact7 = ContactModel(name: "Jen Doe", cadence: '21');
+    var contact1 = ContactModel(
+        userId: "1",
+        name: "John Doe",
+        cadence: CadenceModel(
+          dateAdded: 123123,
+          interval: 5,
+          isDeleted: false,
+          mostRecentMeeting: '07/11/2022',
+          nextMeeting: '12/12/2022',
+        ),
+        connection: ["1", "2"],
+        dateAdded: 123456789,
+        isDeleted: false);
+
+    var contact2 = ContactModel(
+        userId: "2",
+        name: "Jane Doe",
+        cadence: CadenceModel(
+          dateAdded: 123123,
+          interval: 5,
+          isDeleted: false,
+          mostRecentMeeting: '07/11/2022',
+          nextMeeting: '12/12/2022',
+        ),
+        connection: ["1", "2"],
+        dateAdded: 123456789,
+        isDeleted: false);
+
+    var contact3 = ContactModel(
+        userId: "2",
+        name: "John Smith",
+        cadence: CadenceModel(
+          dateAdded: 123123,
+          interval: 5,
+          isDeleted: false,
+          mostRecentMeeting: '07/11/2022',
+          nextMeeting: '12/12/2022',
+        ),
+        connection: ["1", "2"],
+        dateAdded: 123456789,
+        isDeleted: false);
+
+    var contact4 = ContactModel(
+        userId: "2",
+        name: "Jane Smith",
+        cadence: CadenceModel(
+          dateAdded: 123123,
+          interval: 5,
+          isDeleted: false,
+          mostRecentMeeting: '07/11/2022',
+          nextMeeting: '12/12/2022',
+        ),
+        connection: ["1", "2"],
+        dateAdded: 123456789,
+        isDeleted: false);
+
+    var contact5 = ContactModel(
+        name: "John Doe",
+        userId: "2",
+        cadence: CadenceModel(
+          dateAdded: 123123,
+          interval: 5,
+          isDeleted: false,
+          mostRecentMeeting: '07/11/2022',
+          nextMeeting: '12/12/2022',
+        ),
+        connection: ["1", "2"],
+        dateAdded: 123456789,
+        isDeleted: false);
+
+    var contact6 = ContactModel(
+        userId: "2",
+        name: "Jane Doe",
+        cadence: CadenceModel(
+          dateAdded: 123123,
+          interval: 5,
+          isDeleted: false,
+          mostRecentMeeting: '07/11/2022',
+          nextMeeting: '12/12/2022',
+        ),
+        connection: ["1", "2"],
+        dateAdded: 123456789,
+        isDeleted: false);
+
+    var contact7 = ContactModel(
+        userId: "2",
+        name: "John Smith",
+        cadence: CadenceModel(
+          dateAdded: 123123,
+          interval: 5,
+          isDeleted: false,
+          mostRecentMeeting: '07/11/2022',
+          nextMeeting: '12/12/2022',
+        ),
+        connection: ["1", "2"],
+        dateAdded: 123456789,
+        isDeleted: false);
+
     return [
       contact1,
       contact2,
@@ -34,5 +128,34 @@ class ContactService {
       contact6,
       contact7
     ];
+  }
+
+  Future<bool> setNewCadence(
+      {required String contactId, required int newInterval}) async {
+    print("setNewCadence: $contactId, $newInterval");
+
+    return true;
+  }
+
+  // add new contact
+  Future<bool> createNewContact(
+      {required String userId1, required String userId2}) async {
+    print("createNewContact: $userId1, $userId2");
+
+    return true;
+  }
+
+  // getAccountInfoByUID
+  Future<AccountModel> getAccountInfoByUID({required String uid}) async {
+    print("getAccountInfoByUID: $uid");
+
+    return AccountModel(
+      name: "John Doe",
+      birthday: "01/01/2000",
+      city: "New York",
+      phoneNumber: "123-456-7890",
+      userId: "82828282",
+      isDeleted: false,
+    );
   }
 }

@@ -1,6 +1,10 @@
+import 'package:cadence/contact/services/contact_service.dart';
 import 'package:flutter/material.dart';
-import 'package:cadence/main.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/contact_list_provider.dart';
+import '../models/account_model.dart';
+import '../models/contact_model.dart';
 
 class ContactPage extends StatefulWidget {
   const ContactPage({super.key});
@@ -11,9 +15,22 @@ class ContactPage extends StatefulWidget {
 
 class ContactPageState extends State<ContactPage> {
   final TextEditingController cadenceController = TextEditingController();
+  final ContactService _contactService = ContactService();
+  // AccountModel contactAccountInfo =  _contactService.getAccountInfoByUID(uid: contact.userId);
 
   @override
   Widget build(BuildContext context) {
+    final List<int> args =
+        ModalRoute.of(context)!.settings.arguments as List<int>;
+    final int index = args[0];
+
+    // contact provider
+    final contacts =
+        Provider.of<ContactListProvider>(context, listen: false).contacts;
+
+    print("Cadence Interval on a contact" +
+        contacts[index].cadence.interval.toString());
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Center(
@@ -26,7 +43,7 @@ class ContactPageState extends State<ContactPage> {
               ),
             ),
             Expanded(
-              child: contactInfo(),
+              child: contactInfo(contacts[index]),
             ),
           ],
         ),
@@ -68,37 +85,55 @@ class ContactPageState extends State<ContactPage> {
       },
       child: Text("Set Cadence"));
 
-  Widget contactInfo() {
+  Widget contactInfo(ContactModel contact) {
+    // AccountModel contactAccountInfo =  _contactService.getAccountInfoByUID(uid: contact.userId);
+
     return GestureDetector(
-      child: Column(
-        children: <Widget>[
-          const Divider(color: Colors.black),
-          ListTile(
-            leading: Text('Name'),
-            title: Text('Doug Dimadome'),
-          ),
-          const Divider(color: Colors.black),
-          ListTile(
-            leading: Text('Cadence'),
-            title: Text('2 months'),
-            onTap: () => showModalBottomSheet(
-              isScrollControlled: true,
-              context: context,
-              builder: (context) {
-                return Container(
-                    height: MediaQuery.of(context).size.height * 0.5,
-                    child: setCadence());
-              },
-            ),
-          ),
-          const Divider(color: Colors.black),
-          ListTile(
-            leading: Text('Birthday'),
-            title: Text('ask your mom'),
-          ),
-          const Divider(color: Colors.black),
-          ListTile(leading: Text('Location'), title: Text('your moms house'))
-        ],
+      child: FutureBuilder<AccountModel>(
+        future: _contactService.getAccountInfoByUID(uid: contact.userId),
+        builder: (BuildContext context, AsyncSnapshot<AccountModel> snapshot) {
+          return snapshot.hasData
+              ? Column(
+                  children: <Widget>[
+                    // const Divider(color: Colors.black),
+                    ListTile(
+                      // leading: Text('Name'),
+                      title: Text('Name                   ${contact.name}'),
+                    ),
+                    const Divider(color: Colors.black),
+                    ListTile(
+                      // leading: Text('Name'),
+                      title: Text(
+                          'Next Meeting      ${contact.cadence.nextMeeting}'),
+                    ),
+                    const Divider(color: Colors.black),
+
+                    ListTile(
+                      title: Text(
+                          'Cadence               ${contact.cadence.interval} months'),
+                      onTap: () => showModalBottomSheet(
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (context) {
+                          return Container(
+                              height: MediaQuery.of(context).size.height * 0.5,
+                              child: setCadence());
+                        },
+                      ),
+                    ),
+                    const Divider(color: Colors.black),
+                    ListTile(
+                      title: Text(
+                          'Birthday                ${snapshot.data!.birthday}'),
+                    ),
+                    const Divider(color: Colors.black),
+                    ListTile(
+                        title: Text(
+                            'City                        ${snapshot.data!.city}'))
+                  ],
+                )
+              : const CircularProgressIndicator();
+        },
       ),
     );
   }
@@ -109,6 +144,10 @@ class ContactPageState extends State<ContactPage> {
       child: Stack(
         fit: StackFit.expand,
         children: [
+          Image.network(
+            "https://media.gq-magazine.co.uk/photos/5d13a9db3b385369a70e9964/master/pass/dave-hp-gq-26nov18_b.jpg",
+            fit: BoxFit.cover,
+          ),
           Container(
             padding: EdgeInsets.only(top: 60.0),
             alignment: Alignment.topLeft,

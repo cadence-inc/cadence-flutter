@@ -2,6 +2,9 @@ import 'package:cadence/auth/services/auth_service.dart';
 import 'package:cadence/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../contact/models/contact_model.dart';
+import '../../providers/contact_list_provider.dart';
 // import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class HomePage extends StatefulWidget {
@@ -27,6 +30,8 @@ class _HomePageState extends State<HomePage> {
     // final user = ref.watch(currentUserProvider);
     // final contacts = ref.watch(currentUserContactsProvider);
     final user = Provider.of<UserProvider>(context, listen: false).userId;
+    final contacts =
+        Provider.of<ContactListProvider>(context, listen: false).contacts;
 
     return Scaffold(
       appBar: AppBar(
@@ -47,7 +52,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Center(
         child: Container(
-          child: contactListView(),
+          child: contactListView(contacts),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -60,16 +65,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   // grab the contacts and generate a list view composed of list tiles
-  var contacts = ['george', 'jorge', 'cece', 'john', 'james'];
+  // var contacts = ['george', 'jorge', 'cece', 'john', 'james'];
   // final contacts = ref.watch(currentUserContactsProvider);
-  Widget contactListView() {
+  Widget contactListView(List<ContactModel> contacts) {
     return ListView.separated(
         controller: scrollController,
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
-        itemCount: 5, // snapshot.data.length,
+        itemCount: contacts.length, // snapshot.data.length,
         itemBuilder: (BuildContext context, int index) {
-          return contactListTile(contacts[index]);
+          return contactListTile(contacts[index], index);
         },
         separatorBuilder: (context, index) {
           return Divider(
@@ -78,13 +83,17 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
-  Widget contactListTile(String contact) {
+  Widget contactListTile(ContactModel contact, int index) {
     return GestureDetector(
       child: ListTile(
         trailing: const Icon(Icons.person),
-        title: Text(contact),
+        title: Text(contact.name),
       ),
-      onTap: () => Navigator.pushNamed(context, '/contact'),
+      onTap: () => Navigator.pushNamed(
+        context,
+        '/contact',
+        arguments: [index],
+      ),
     );
   }
 }

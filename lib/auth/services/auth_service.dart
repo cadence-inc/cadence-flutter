@@ -39,9 +39,10 @@ class AuthService {
   Future<List<dynamic>> oneTimeCodeVerified({required phoneNumber}) async {
     print("oneTimeCodeVerified- phone number: $phoneNumber");
 
-    //todo:  set userid in provider
+    var isNewUser = false;
+    var userId = "80808080";
 
-    return [true, "8080808080"];
+    return [isNewUser, userId];
   }
 
   Future<bool> updateAccountInfo(

@@ -1,10 +1,10 @@
+import 'package:cadence/contact/models/contact_model.dart';
 import 'package:cadence/contact/services/contact_service.dart';
-import 'package:cadence/models/contact_model.dart';
 import 'package:flutter/material.dart';
 
 class ContactListProvider extends ChangeNotifier {
   List<ContactModel> _contacts = [];
-  // String currentSearchQuery = '';
+
   final ContactService _contactService = ContactService();
 
   List<ContactModel> get contacts => _contacts;
