@@ -2,16 +2,21 @@
 // import 'package:flownotes/globals/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../services/auth_service.dart';
 // import 'package:provider/provider.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
 class LandingPage extends StatefulWidget {
+  const LandingPage({Key? key}) : super(key: key);
+
   @override
   _LandingPage createState() => _LandingPage();
 }
 
 class _LandingPage extends State<LandingPage> {
   final TextEditingController phoneController = TextEditingController();
+  final AuthService _authService = AuthService();
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
@@ -72,9 +77,13 @@ class _LandingPage extends State<LandingPage> {
 
   Widget buildSubmitButton() => ElevatedButton(
         onPressed: () async {
+          var oneTimeCode =
+              await _authService.sendOTC(phoneNumber: phoneController.text);
+
           Navigator.pushNamed(
             context,
             '/verification',
+            arguments: [phoneController.text, oneTimeCode],
           );
         },
         child: Text("Yessir!"),

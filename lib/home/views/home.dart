@@ -1,3 +1,4 @@
+import 'package:cadence/auth/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -9,6 +10,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final ScrollController scrollController = ScrollController();
+  final AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,7 @@ class _HomePageState extends State<HomePage> {
               // ScaffoldMessenger.of(context).showSnackBar(
               //   const SnackBar(content: Text('This will be profile')),
               // );
+              _authService.signOut();
               Navigator.pushNamed(context, '/');
             },
           )

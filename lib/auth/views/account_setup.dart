@@ -1,3 +1,4 @@
+import 'package:cadence/auth/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class AccountSetupPage extends StatefulWidget {
@@ -11,6 +12,8 @@ class _AccountSetupPageState extends State<AccountSetupPage> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController birthdayController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
+
+  final AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -83,10 +86,22 @@ class _AccountSetupPageState extends State<AccountSetupPage> {
         onPressed: () async {
           String cleanedBday = cleanBday(birthdayController.text);
 
-          Navigator.pushReplacementNamed(
-            context,
-            '/home',
+          String uid = "80808080"; // todo: grab uid from provider
+          bool result = await _authService.updateAccountInfo(
+            uid,
+            nameController.text,
+            cleanedBday,
+            cityController.text,
           );
+
+          if (result) {
+            Navigator.pushReplacementNamed(
+              context,
+              '/home',
+            );
+          } else {
+            print("updateAccountInfo Failed");
+          }
         },
         child: Text("Yessir!"),
       );

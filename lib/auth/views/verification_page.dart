@@ -1,22 +1,40 @@
 // import 'package:flownotes/auth/services/auth_service.dart';
 // import 'package:flownotes/globals/providers/user_provider.dart';
+import 'package:cadence/auth/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:provider/provider.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
 class VerificationPage extends StatefulWidget {
+  String oneTimeCode = '';
+
+  VerificationPage({
+    Key? key,
+    // required this.phoneNumber, required this.oneTimeCode
+  }) : super(key: key);
+
   @override
   _VerificationPage createState() => _VerificationPage();
 }
 
 class _VerificationPage extends State<VerificationPage> {
-  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController oneTimeCodeController = TextEditingController();
+
+  final AuthService _authService = AuthService();
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   @override
   Widget build(BuildContext context) {
+    final List<String> args =
+        ModalRoute.of(context)!.settings.arguments as List<String>;
+    final String phoneNumber = args[0];
+    widget.oneTimeCode = args[1];
+
+    // print("phoneNumber" + phoneNumber);
+    // print("oneTimeCode: " + widget.oneTimeCode);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
@@ -47,11 +65,11 @@ class _VerificationPage extends State<VerificationPage> {
                     children: [
                       Container(
                           padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                          child: buildPhoneField()),
+                          child: buildOneTimeCodeField()),
                       Container(
                         padding: EdgeInsets.only(right: 21.0),
                         alignment: Alignment.centerRight,
-                        child: buildResendOTCButton(),
+                        child: buildResendOTCButton(phoneNumber),
                       ),
                     ],
                   ),
@@ -60,7 +78,7 @@ class _VerificationPage extends State<VerificationPage> {
                   padding: EdgeInsets.only(
                     top: 60,
                   ),
-                  child: buildSubmitButton(),
+                  child: buildSubmitButton(widget.oneTimeCode, phoneNumber),
                 ),
               ],
             ),
@@ -86,29 +104,67 @@ class _VerificationPage extends State<VerificationPage> {
         ),
       );
 
-  Widget buildPhoneField() => TextFormField(
+  Widget buildOneTimeCodeField() => TextFormField(
         keyboardType: TextInputType.phone,
         autofillHints: [AutofillHints.telephoneNumber],
-        controller: phoneController,
+        controller: oneTimeCodeController,
         decoration: InputDecoration(
           labelText: "Paste Code from SMS",
         ),
       );
 
-  Widget buildResendOTCButton() => TextButton(
-        onPressed: () async {},
+  Widget buildResendOTCButton(String phoneNumber) => TextButton(
+        onPressed: () async {
+          String newOneTimeCode =
+              await _authService.sendOTC(phoneNumber: phoneNumber);
+          setState(() {
+            widget.oneTimeCode = newOneTimeCode;
+          });
+          print("newOneTimeCode: " + newOneTimeCode);
+        },
         child: Text(
           "Resend Code",
           style: TextStyle(decoration: TextDecoration.underline),
         ),
       );
 
-  Widget buildSubmitButton() => ElevatedButton(
+  Widget buildSubmitButton(String oneTimeCode, String phoneNumber) =>
+      ElevatedButton(
         onPressed: () async {
-          Navigator.pushReplacementNamed(
-            context,
-            '/setup',
-          );
+          // check if user submitted correct code
+          var res = [];
+          if (oneTimeCode == oneTimeCodeController.text) {
+            res = await _authService.oneTimeCodeVerified(
+                phoneNumber: phoneNumber) as List;
+          } else {
+            throw ("oneTimeCode Incorrect");
+          }
+
+          bool isNewUser = res[0];
+          String userId = res[1];
+
+          // set userID in shared preferences
+
+          _prefs.then((SharedPreferences prefs) async {
+            print("setstring on verification");
+
+            bool setStringSuccessful = await prefs.setString('userId', userId);
+
+            print(
+                "was set string successful? " + setStringSuccessful.toString());
+          });
+
+          if (isNewUser) {
+            Navigator.pushReplacementNamed(
+              context,
+              '/setup',
+            );
+          } else {
+            Navigator.pushReplacementNamed(
+              context,
+              '/home',
+            );
+          }
         },
         child: Text("Verify"),
       );
