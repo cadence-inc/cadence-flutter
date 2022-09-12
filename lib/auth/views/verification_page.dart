@@ -18,7 +18,8 @@ class VerificationPage extends StatefulWidget {
 }
 
 class _VerificationPage extends State<VerificationPage> {
-  final TextEditingController oneTimeCodeController = TextEditingController();
+  final TextEditingController oneTimeCodeController =
+      TextEditingController(text: "123");
 
   final AuthService _authService = AuthService();
 
@@ -109,6 +110,8 @@ class _VerificationPage extends State<VerificationPage> {
         controller: oneTimeCodeController,
         decoration: InputDecoration(
           labelText: "Paste Code from SMS",
+          helperText: "beta code is 123",
+          // hintText: "beta code is 123",
         ),
       );
 

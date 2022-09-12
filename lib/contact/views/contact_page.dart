@@ -119,7 +119,7 @@ class ContactPageState extends State<ContactPage> {
                         context: context,
                         builder: (context) {
                           return Container(
-                              height: MediaQuery.of(context).size.height * 0.5,
+                              height: MediaQuery.of(context).size.height * 0.6,
                               child: setCadence(contact));
                         },
                       ),
@@ -156,13 +156,13 @@ class ContactPageState extends State<ContactPage> {
             alignment: Alignment.topLeft,
             child: buildBackButton(),
           ),
-          buildCallButton(),
+          buildTextButton(),
         ],
       ),
     );
   }
 
-  Widget buildCallButton() {
+  Widget buildTextButton() {
     return Positioned(
       left: 15,
       bottom: 20,
